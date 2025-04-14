@@ -1,0 +1,13 @@
+@model MovieWatching.Models.MovieSessionOrganizationModel
+
+<h3>Movie Session Organization Panel</h3>
+<form action="Actions/StartSession" method="post">
+    @foreach (var voter in Model.Voters)
+    {
+        <div class="mb-3 form-check">
+            <label class="form-check-label"><input type="checkbox" name="Voter" class="form-check-input" value="@voter.id">@voter.name</label>
+        </div>
+    }
+    <input type="hidden" name="MovieSessionPlanId" value="@Model.MovieSessionPlanId" />
+    <input class="btn btn-primary" type="submit" value="Start session"/>
+</form>

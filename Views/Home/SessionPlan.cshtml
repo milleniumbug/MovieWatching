@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@using System.Security.Claims
+@using AspNet.Security.OAuth.Discord
+@using MovieWatching.Extensions
+@using MovieWatching.Models
+@model MovieWatching.Models.MovieSessionPlanModel?
+
+@if (Model != null)
+{
+    if(Model.VotedMovie != null)
+    {
+        <div>
+            <h1>Selected movie: @Model.VotedMovie.MovieName</h1>
+        </div>
+    }
+    <div>
+        @if (Model.MoviesVote != null)
+        {
+            <p>
+                @await Html.PartialAsync("MovieList", Model.MoviesVote)
+            </p>
+        }
+    </div>
+    @if (Model.MoviesOrganizationPlan != null)
+    {
+        <div>
+            @await Html.PartialAsync("SessionPlanView", Model.MoviesOrganizationPlan)
+        </div>
+    }
+}
+else
+{
+    <div>
+        
+    </div>
+}

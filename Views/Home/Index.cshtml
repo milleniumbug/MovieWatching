@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@using System.Security.Claims
+@using AspNet.Security.OAuth.Discord
+@using MovieWatching.Extensions
+@using MovieWatching.Models
+@model MovieWatching.Models.MoviePlanListModel?
+
+@if (Model != null)
+{
+    foreach (var plan in Model.Plans)
+    {
+        if (plan.SelectedMovie == null)
+        {
+            <p>
+                <a href="~/SessionPlan/@plan.Id">@(plan.SessionName) - Organized by @(plan.UserName)</a>
+            </p>
+        }
+        else
+        {
+            <p>
+                @(plan.SessionName): @(plan.SelectedMovie)
+            </p>
+        }
+    }
+    if(Model.MoviesNewOrganizationPlan != null)
+    {
+        <div>
+            @await Html.PartialAsync("NewSessionPlanView", Model.MoviesNewOrganizationPlan)
+        </div>
+    }
+}
+else
+{
+    <div>
+        
+    </div>
+}

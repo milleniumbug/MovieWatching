@@ -1,0 +1,30 @@
+@model MovieWatching.Models.AddNewMovieEntryModel
+
+<li class="list-group-item">
+    <form class="">
+        <div class="row">
+            <label asp-for="Name" class="col-form-label">
+                Name
+                <input class="form-control" type="text" name="Name">
+            </label>
+        </div>
+        <div class="row">
+            <label asp-for="Url" class="col-form-label">
+                Link
+                <input class="form-control" type="text" name="Url">
+            </label>
+        </div>
+        <div class="row">
+            <div class="col-1 spinner-border htmx-indicator" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1">
+                <input type="hidden" name="MovieSessionPlanId" value="@Model.MovieSessionPlanId">
+                <input class="btn btn-secondary" type="submit" value="Add Movie" hx-target="closest ul" hx-swap="outerHTML" hx-post="/Actions/AddMovie" hx-indicator="previous .spinner-border">
+            </div>
+        </div>
+    </form>@Model.Error
+</li>
+

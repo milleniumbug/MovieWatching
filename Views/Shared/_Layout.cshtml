@@ -1,0 +1,64 @@
+﻿@using MovieWatching.Extensions
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Magical Translators' Weekly Movie Club</title>
+
+    <script src="https://unpkg.com/jquery@3.4.1/dist/jquery.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <main class="container">
+        <div class="header row">
+            <div class="col justify-content-center text-start">
+                <h3 class="text-muted">Magical Translators' Weekly Movie Club</h3>
+            </div>
+            
+            <div class="col justify-content-center text-center">
+                @if (Context.IsAuthenticated())
+                {
+                    <small>Logged in as @Model.UserName</small>
+                }
+            </div>
+
+            <div class="col justify-content-center text-end">
+                @if (Context.IsAuthenticated())
+                {
+                    <a class="btn btn-lg btn-danger m-1" href="/signout?returnUrl=%2F">Sign out</a>
+                }
+                else
+                {
+                    var schemes = await Context.GetExternalProvidersAsync();
+                    var scheme = schemes.FirstOrDefault(scheme => scheme.DisplayName == "Discord");
+
+                    if (scheme != null)
+                    {
+                        <form action="/signin" method="post">
+                            <input type="hidden" name="Provider" value="@scheme.Name"/>
+                            <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl"/>
+
+                            <button class="btn btn-lg btn-success m-1" type="submit">Connect using @scheme.DisplayName</button>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+
+        @RenderBody()
+        
+        <footer>
+            <p>&copy; milleniumbug</p>
+        </footer>
+
+    </main>
+</body>
+</html>

@@ -1,0 +1,15 @@
+@using MovieWatching.Models
+@model MovieWatching.Models.MovieVoteSessionModel
+
+<ul class="list-group container-md">
+    <h3>@Model.MovieSessionName</h3>
+    @foreach (var movie in Model.Movies)
+    {
+        @await Html.PartialAsync("MovieEntry", movie)
+    }
+    @await Html.PartialAsync("AddNewMovieEntry", new AddNewMovieEntryModel()
+    {
+        Error = Model.ErrorMessage,
+        MovieSessionPlanId = Model.MovieSessionPlanId
+    })
+</ul>

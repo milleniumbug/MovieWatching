@@ -1,0 +1,39 @@
+@model MovieWatching.Models.MovieEntry
+
+<li class="list-group-item">
+    <div class="justify-content-md-left">
+        <div>
+            @if (Model.Url != null)
+            {
+                <a href="@Model.Url" rel="nofollow">@Model.Name</a>
+            }
+            else
+            {
+                @Model.Name
+            }
+        </div>
+        <div class="spinner-border htmx-indicator" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div>
+            <div>
+                Voted: @Model.VoteCount
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    @if (Model.UserVoted)
+                    {
+                        <button @(Model.MovieSessionPlanId == null ? "disabled" : "") class="form-control" hx-post="/Actions/RevokeVote?MovieId=@Model.Id&amp;SessionPlanId=@Model.MovieSessionPlanId" hx-target="closest li" hx-swap="outerHTML" hx-indicator="previous .spinner-border">Revoke vote</button>
+                    }
+                    else
+                    {
+                        <button @(Model.MovieSessionPlanId == null ? "disabled" : "") class="form-control" hx-post="/Actions/VoteMovie?MovieId=@Model.Id&amp;SessionPlanId=@Model.MovieSessionPlanId" hx-target="closest li" hx-swap="outerHTML" hx-indicator="previous .spinner-border">Vote</button>
+                    }
+                </div>
+                <div class="col-6">
+                    <button @(!Model.UserAdded ? "disabled" : "") class="form-control" hx-delete="/Actions/DeleteMovie?MovieId=@Model.Id" hx-target="closest li" hx-swap="outerHTML" hx-indicator="previous .spinner-border">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
